@@ -72,6 +72,7 @@ public class GameManager : Singleton<GameManager> //Singleton
 
 
     private List<Monster> activeMonsters = new List<Monster>(); // a list of monsters active on the screen 
+
     public ObjectPool Pool { get; set; } //holds and resuses inactive objects
 
     //property enables access to set and get currency
@@ -276,6 +277,11 @@ public class GameManager : Singleton<GameManager> //Singleton
             {
                 DeselectTower();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 0;
         }
     }
 

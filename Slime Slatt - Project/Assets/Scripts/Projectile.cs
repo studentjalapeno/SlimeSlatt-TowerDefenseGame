@@ -60,6 +60,10 @@ public class Projectile : MonoBehaviour
                 myAnimator.SetTrigger("Impact");
 
                 ApplyDebuff();
+
+                GameManager.Instance.Pool.ReleaseObject(gameObject); //reused in pool
+
+
             }
             
         }    
