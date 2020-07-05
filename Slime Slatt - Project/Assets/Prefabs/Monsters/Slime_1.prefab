@@ -303,7 +303,7 @@ PrefabInstance:
     - target: {fileID: 8774799713366965232, guid: f5df92167777eb240861607a9402da15,
         type: 3}
       propertyPath: lerpColors
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8774799713366965232, guid: f5df92167777eb240861607a9402da15,
         type: 3}
@@ -313,7 +313,7 @@ PrefabInstance:
     - target: {fileID: 8774799713366965238, guid: f5df92167777eb240861607a9402da15,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8774799713366965238, guid: f5df92167777eb240861607a9402da15,
         type: 3}

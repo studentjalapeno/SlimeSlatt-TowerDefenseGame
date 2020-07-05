@@ -1,5 +1,4 @@
-﻿using CodeMonkey.Utils;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,26 +11,49 @@ public delegate void CurrencyChanged();
 
 
 /// <summary>
-/// GameManager handles time, countdown, nextwave, currency
+/// GameManager handles the game mechanics
 /// </summary>
-
 public class GameManager : Singleton<GameManager> //Singleton
 {
+
+
     /// <summary>
     ///An event that is triggered when the currency is changed 
     /// </summary>
     public event CurrencyChanged Changed;
 
+
     //property (enables a class to expose a public way of getting and setting values
     public TowerBtn ClickedBtn { get; set; }
 
-    private int currency; //money in game
+    /// <summary>
+    /// The players currency
+    /// </summary>
+    private int currency; 
+    
+    /// <summary>
+    /// The current wave
+    /// </summary>
     private int wave = 0; //starting wave number
-    private int lives; //lives player has
+    
+    /// <summary>
+    /// The player's lives
+    /// </summary>
+    private int lives; 
+    
+    /// <summary>
+    /// The players health
+    /// </summary>
     private int health = 15; //the health monsters have (this will be changed later
     
+    /// <summary>
+    /// Indicated if game is over
+    /// </summary>
     private bool gameOver;
 
+    /// <summary>
+    /// The current selected tower
+    /// </summary>
     private Tower selectedTower; // the current selected tower
 
     [SerializeField]
@@ -119,13 +141,18 @@ public class GameManager : Singleton<GameManager> //Singleton
         get { return activeMonsters.Count > 0; } //returns true of activeMonsters > 0
     }
 
+    /// <summary>
+    /// The GameManagers awake function
+    /// </summary>
     private void Awake()
     {
         Pool = GetComponent<ObjectPool>();
     }
 
-    // Start is called before the first frame update
 
+    /// <summary>
+    /// The GameManagers start function
+    /// </summary>
     void Start()
     {
         //starting currency
@@ -246,6 +273,9 @@ public class GameManager : Singleton<GameManager> //Singleton
 
     }
 
+    /// <summary>
+    /// When the currency changes
+    /// </summary>
     public void OnCurrencyChanged()
     {
         if ( Changed != null)
@@ -279,14 +309,14 @@ public class GameManager : Singleton<GameManager> //Singleton
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0;
-        }
     }
 
+    /// <summary>
+    /// Starts a wave
+    /// </summary>
     public void StartWave()
     {
+        Debug.Log("Wave # :"+ wave);
         wave++;
 
         waveText.text = string.Format("Wave: <color=lime>{0}</color>", wave);
@@ -307,7 +337,12 @@ public class GameManager : Singleton<GameManager> //Singleton
 
         for (int i = 0; i < wave; i++)
         {
-            int monsterIndex = Random.Range(0, 2);
+            int monsterIndex = UnityEngine.Random.Range(0, 2);
+
+            if (wave == 2)
+            {
+                monsterIndex = 1;
+            }
 
             string type = string.Empty;
 
@@ -319,27 +354,26 @@ public class GameManager : Singleton<GameManager> //Singleton
                 case 1:
                     type = "Slime_2";
                     break;
+
                     // case 2:
                     //     type = "Slime_2";
                     //     break;
             }
 
 
+            Debug.Log("Monster Index: " + monsterIndex);
+
             //Requests the monster from the pool
             Monster monster = Pool.GetObject(type).GetComponent<Monster>();
 
-
+            //Spawns monster into world
             monster.Spawn(health);
-
-            if (wave % 3 == 0)
-            {
-                health += 5;
-            }
 
             //Adds the monster to the active monster list
             activeMonsters.Add(monster);
 
-            yield return new WaitForSeconds(2.5f);
+            //wait 3 seconds before we spawn the next monster
+            yield return new WaitForSeconds(0.5f);
 
         }
 
@@ -352,7 +386,7 @@ public class GameManager : Singleton<GameManager> //Singleton
 
 
         //if activeMonsters < 0
-        if(!WaveActive & !gameOver)
+        if(activeMonsters.Count <= 0 && !gameOver)
         {
             //Shows the wave button
             waveBtn.SetActive(true);
