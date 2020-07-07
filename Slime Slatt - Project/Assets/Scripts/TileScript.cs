@@ -68,7 +68,7 @@ public class TileScript : MonoBehaviour //judges where you can place towers /che
     
     public void Setup(Point gridpos, Vector3 worldPosition, Transform parent)
     {
-        WalkAble = true; //set all nodes walkable
+  
         IsEmpty = true;
         this.GridPosition = gridpos;
         transform.position = worldPosition;

@@ -278,11 +278,8 @@ public class GameManager : Singleton<GameManager> //Singleton
     /// </summary>
     public void OnCurrencyChanged()
     {
-        if ( Changed != null)
-        {
-            Changed();
-         
-        }
+        //If changed != to null
+        Changed?.Invoke();
     }
 
     /// <summary>

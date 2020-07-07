@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -114,6 +115,7 @@ public class LevelManager : Singleton<LevelManager>
         //Calculates the Y map size
         int mapYsize = mapData.Length; // length of array is 2 
 
+        //this will be the last tile placed
         Vector3 maxTile = Vector3.zero;
 
 
@@ -129,6 +131,10 @@ public class LevelManager : Singleton<LevelManager>
 
                 //Places the tile in the world
                 PlaceTile(newTiles[x].ToString(), x, y, worldStart) ; 
+
+               
+
+
             }
         }
 
@@ -152,15 +158,30 @@ public class LevelManager : Singleton<LevelManager>
     /// <param name="worldStart"> The world start position </param> 
     /// <returns></returns>
 
-    private void PlaceTile(string tileType,int x, int y, Vector3 worldStart) {
+    private void PlaceTile(string tileType, int x, int y, Vector3 worldStart) {
 
 
         //Parses tiletype to an int so that we can use it as an indexer 
-        int tileIndex = int.Parse(tileType); 
+        int tileIndex = int.Parse(tileType);
 
+        Debug.Log(tileIndex);
 
+    
         //Create a new tile and makes a reference to that tile in the newTile variable
         TileScript newTile = Instantiate(tilePrefabs[tileIndex]).GetComponent<TileScript>();
+
+        //if tile is a grass tile
+        if (tileIndex == 0)
+        {
+            newTile.WalkAble = false;
+        }
+        //if tile is a dirt tile
+        else
+        {
+            newTile.WalkAble = true;
+        }
+
+
 
         // uses the new tile variable to change the position of the tile
         newTile.Setup(new Point(x, y), new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0), map);
