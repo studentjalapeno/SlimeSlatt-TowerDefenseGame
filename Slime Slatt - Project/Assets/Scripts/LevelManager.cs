@@ -128,13 +128,9 @@ public class LevelManager : Singleton<LevelManager>
 
             for (int x = 0; x < mapXsize; x++) // The x positions 
             {
-
                 //Places the tile in the world
                 PlaceTile(newTiles[x].ToString(), x, y, worldStart) ; 
-
-               
-
-
+            
             }
         }
 
@@ -164,8 +160,6 @@ public class LevelManager : Singleton<LevelManager>
         //Parses tiletype to an int so that we can use it as an indexer 
         int tileIndex = int.Parse(tileType);
 
-        Debug.Log(tileIndex);
-
     
         //Create a new tile and makes a reference to that tile in the newTile variable
         TileScript newTile = Instantiate(tilePrefabs[tileIndex]).GetComponent<TileScript>();
@@ -174,10 +168,12 @@ public class LevelManager : Singleton<LevelManager>
         if (tileIndex == 0)
         {
             newTile.WalkAble = false;
+            newTile.IsEmpty = true; 
         }
         //if tile is a dirt tile
         else
         {
+            newTile.IsEmpty = false; 
             newTile.WalkAble = true;
         }
 

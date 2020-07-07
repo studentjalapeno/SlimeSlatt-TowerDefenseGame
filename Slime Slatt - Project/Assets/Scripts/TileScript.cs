@@ -69,7 +69,6 @@ public class TileScript : MonoBehaviour //judges where you can place towers /che
     public void Setup(Point gridpos, Vector3 worldPosition, Transform parent)
     {
   
-        IsEmpty = true;
         this.GridPosition = gridpos;
         transform.position = worldPosition;
         transform.SetParent(parent);
